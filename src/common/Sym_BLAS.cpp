@@ -6,6 +6,11 @@
 
 #include <cassert>
 
+#ifdef BLAS_JL
+#define cblas_dscal cblas_dscal_64
+#define cblas_dsyr cblas_dsyr_64
+#endif
+
 //#include "common_interface.h"
 
 namespace nasoq {

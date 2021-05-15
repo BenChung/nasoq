@@ -17,10 +17,15 @@ project(libnasoq_static)
 
 add_definitions(-DSYM_REMOV)
 
+OPTION(BLAS_JL "Use libblastrampoline 64-bit BLAS functions" OFF)
+IF(BLAS_JL)
+    ADD_DEFINITIONS(-DBLAS_JLL)
+ENDIF(BLAS_JL)
+
 set(OPENBLAS_STAT_LIB "")
 set(OPENBLAS_DYN_LIB  "")
 set(MKL_FOUND FALSE)
-find_package(MKL REQUIRED)
+find_package(MKL)
 if(NOT MKL_FOUND)
     set(BLA_VENDOR OpenBLAS)
 #    set(BLA_STATIC TRUE)
