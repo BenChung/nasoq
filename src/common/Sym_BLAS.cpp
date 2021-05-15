@@ -7,8 +7,8 @@
 #include <cassert>
 
 #ifdef BLAS_JL
-#define cblas_dscal cblas_dscal_64
-#define cblas_dsyr cblas_dsyr_64
+#define cblas_dscal cblas_dscal
+#define cblas_dsyr cblas_dsyr
 #endif
 
 //#include "common_interface.h"
