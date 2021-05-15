@@ -19,7 +19,7 @@ add_definitions(-DSYM_REMOV)
 
 OPTION(BLAS_JL "Use libblastrampoline 64-bit BLAS functions" OFF)
 IF(BLAS_JL)
-    ADD_DEFINITIONS(-DBLAS_JLL)
+    ADD_DEFINITIONS(-DBLAS_JL)
 ENDIF(BLAS_JL)
 
 set(OPENBLAS_STAT_LIB "")
