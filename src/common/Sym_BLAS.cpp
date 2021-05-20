@@ -563,7 +563,7 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
 #ifdef OPENBLAS
     cblas_dscal(n_rhs, tmp, rhs + i * lda, iun);
 #elif BLAS_JL
-    cblas_dscal_64(n_rhs, tmp, rhs + i * lda, iun);
+    cblas_dscal(n_rhs, tmp, rhs + i * lda, iun);
 #else
     SYM_DSCAL(&n_rhs, &tmp, rhs + i * lda, &iun);
 #endif
