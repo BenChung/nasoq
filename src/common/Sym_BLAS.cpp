@@ -20,6 +20,8 @@ namespace nasoq {
   double one = 1.0;
 #ifdef OPENBLAS
   blasint  iun = 1;
+#elif BLAS_JL
+  blasint iun = 1;
 #else
   const int iun = 1;
 #endif
@@ -60,6 +62,8 @@ namespace nasoq {
 //#else
 #ifdef OPENBLAS
 cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
+#elif BLAS_JL
+ cblas_dscal_64(tmp_dim,sca_tmp,tmp1,iun);
 #else
    SYM_DSCAL(&tmp_dim, &sca_tmp, tmp1, &iun);
 #endif
@@ -78,6 +82,9 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
    blasint  st = stride;
    cblas_dsyr(CblasColMajor, CblasLower, dimx, diag, tmp1, iun, tmp1_stride, st); //  ?syr Performs a rank-1 update of a symmetric matrix.
   // dsyr_("L", &dimx, &diag, tmp1, &iun, tmp1_stride, &st); //  ?syr Performs a rank-1 update of a symmetric matrix.
+#elif BLAS_JL
+   blasint  st = stride;
+   cblas_dsyr_64(CblasColMajor, CblasLower, dimx, diag, tmp1, iun, tmp1_stride, st); //  ?syr Performs a rank-1 update of a symmetric matrix. 
 #else
    dsyr("L", &dimx, &diag, tmp1, &iun, tmp1_stride, &stride); //  ?syr Performs a rank-1 update of a symmetric matrix.
 #endif
@@ -497,6 +504,8 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
  void blocked_2by2_solver(int n, double *D, double *rhs, int n_rhs, int lda, int lda_d) {
 #ifdef OPENBLAS
   blasint  iun = 1;
+#elif BLAS_JL
+  blasint iun = 1;
 #else
   const int iun = 1;
 #endif
@@ -506,6 +515,8 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
     double tmp = 1.0 / D[i];
 #ifdef OPENBLAS
     cblas_dscal(n_rhs, tmp, rhs + i * lda, iun);
+#elif BLAS_JL
+    cblas_dscal_64(n_rhs, tmp, rhs + i * lda, iun);
 #else
     SYM_DSCAL(&n_rhs, &tmp, rhs + i * lda, &iun);
 #endif
@@ -524,6 +535,9 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
 #ifdef OPENBLAS
     cblas_dscal(n_rhs, one_over_det, rhs + i * lda, iun);
     cblas_dscal(n_rhs, one_over_det, rhs + (i + 1) * lda, iun);
+#elif BLAS_JL
+    cblas_dscal_64(n_rhs, one_over_det, rhs + i * lda, iun);
+    cblas_dscal_64(n_rhs, one_over_det, rhs + (i + 1) * lda, iun);
 #else
     SYM_DSCAL(&n_rhs, &one_over_det, rhs + i * lda, &iun);
     SYM_DSCAL(&n_rhs, &one_over_det, rhs + (i + 1) * lda, &iun);
@@ -548,6 +562,8 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
     double tmp = 1.0 / D[i];
 #ifdef OPENBLAS
     cblas_dscal(n_rhs, tmp, rhs + i * lda, iun);
+#elif BLAS_JL
+    cblas_dscal_64(n_rhs, tmp, rhs + i * lda, iun);
 #else
     SYM_DSCAL(&n_rhs, &tmp, rhs + i * lda, &iun);
 #endif
@@ -566,6 +582,9 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
 #ifdef OPENBLAS
     cblas_dscal(n_rhs, one_over_det, rhs + i * lda, iun);
     cblas_dscal(n_rhs, one_over_det, rhs + (i + 1) * lda, iun);
+#elif BLAS_JL
+    cblas_dscal_64(n_rhs, one_over_det, rhs + i * lda, iun);
+    cblas_dscal_64(n_rhs, one_over_det, rhs + (i + 1) * lda, iun);
 #else
     SYM_DSCAL(&n_rhs, &one_over_det, rhs + i * lda, &iun);
     SYM_DSCAL(&n_rhs, &one_over_det, rhs + (i + 1) * lda, &iun);

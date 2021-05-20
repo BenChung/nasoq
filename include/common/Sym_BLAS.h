@@ -20,6 +20,9 @@
     #include "openblas/lapacke.h"
     #include "openblas/cblas.h"
    // #endif
+#elif BLAS_JL
+#include "lapacke.h"
+#include "cblas.h"
 #else
 #include "mkl.h"
 #include <mkl_blas.h>
