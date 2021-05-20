@@ -41,6 +41,12 @@ namespace nasoq {
 #define SYM_DGEMV dgemv_
 #define SYM_DSCAL dscal_
 #define SET_BLAS_THREAD(t) (openblas_set_num_threads(t))
+#elif BLAS_JL
+#define SYM_DGEMM dgemm_
+#define SYM_DTRSM dtrsm_
+#define SYM_DGEMV dgemv_
+#define SYM_DSCAL dscal_
+#define SET_BLAS_THREAD(t) (openblas_set_num_threads(t))
 #else
 #define SYM_DGEMM dgemm
 #define SYM_DTRSM dtrsm
