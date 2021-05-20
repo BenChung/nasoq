@@ -210,8 +210,13 @@ namespace nasoq {
 #endif
   ldl_update_variant = 2;
 #ifdef OPENBLAS
+  #ifdef BLAS_JL
+  num_thread = lbt_get_num_threads();
+  lbt_set_num_threads(1);
+  #else 
   num_thread = openblas_get_num_procs();
   openblas_set_num_threads(1);
+  #endif
 #else
   num_thread = mkl_get_max_threads();
   MKL_Domain_Set_Num_Threads(1, MKL_DOMAIN_BLAS);
