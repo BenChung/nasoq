@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include "common/Reach.h"
 
-#if defined OPENBLAS || defined BLAS_JL
+#ifdef OPENBLAS
 /*    #ifdef OB_INTERNAL
     #include "lapacke.h"
     #include "cblas.h"
