@@ -212,8 +212,10 @@ namespace nasoq {
 
 #if 1
   //LAst iteration
-#if defined OPENBLAS || defined BLAS_JL
+#if defined OPENBLAS
   openblas_set_num_threads(threads);
+#elif defined BLAS_JL
+  lbt_set_num_threads(threads);
 #else
   MKL_Domain_Set_Num_Threads(threads, MKL_DOMAIN_BLAS);
 #endif

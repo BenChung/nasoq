@@ -59,7 +59,7 @@ elseif(BLAS_JL)
 	set(OPENBLAS_INCLUDE_DIR ${LBT_INC})
 	set(OPENBLAS_STAT_LIB ${LBT_LIB})
 	message(STATUS "Using libblastrampoline")
-    else()
+else()
     add_definitions(-DMKL_BLAS)
 endif()
 

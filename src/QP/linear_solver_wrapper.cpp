@@ -209,15 +209,13 @@ namespace nasoq {
   ldl_variant = 2;
 #endif
   ldl_update_variant = 2;
-#if defined OPENBLAS || defined BLAS_JL
-  #ifdef BLAS_JL
-  num_thread = lbt_get_num_threads();
-  lbt_set_num_threads(1);
-  #else 
+#if defined OPENBLAS
   num_thread = openblas_get_num_procs();
   openblas_set_num_threads(1);
-  #endif
-#else
+#elif defined BLAS_JL
+  num_thread = lbt_get_num_threads();
+  lbt_set_num_threads(1);
+#else 
   num_thread = mkl_get_max_threads();
   MKL_Domain_Set_Num_Threads(1, MKL_DOMAIN_BLAS);
 #endif
