@@ -311,8 +311,15 @@ bool ldl_left_sn_02(int n, int* c, int* r, double* values,
       std::cout<<"\n";
      }}
 #endif
-   dtrsm("R", "L", "C", "U", &rowNo, &supWdt, one,
-         cur, &nSupR, &cur[supWdt], &nSupR);
+
+#ifdef OPENBLAS
+   cblas_dtrsm(CblasColMajor, CblasRight, CblasLower, CblasConjTrans, CblasUnit, rowNo, supWdt, 1.0,
+	       cur, nSupR, &cur[supWdt], nSupR);
+#else
+   SYM_DTRSM("R", "L", "C", "U", &rowNo, &supWdt, one,
+	     cur, &nSupR, &cur[supWdt], &nSupR);
+#endif
+   
    blocked_2by2_solver(supWdt, &D[curCol], &cur[supWdt], rowNo, nSupR, n);
 
    //copying 1/Di into D

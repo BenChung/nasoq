@@ -144,7 +144,7 @@ namespace nasoq {
        /*dgemm("N", "C", &ndrow3, &ndrow1, &supWdts, one, srcL, &nSNRCur,
              src, &nSNRCur, zero, &contribs[ndrow1], &nSupRs);*/
 
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
        cblas_dgemm(CblasColMajor,CblasNoTrans,CblasConjTrans, nSupRs, ndrow1, supWdts, 1.0, trn_diag, nSupRs,
                    src, nSNRCur, 0.0, contribs, nSupRs);
 #else
@@ -286,7 +286,7 @@ namespace nasoq {
      src = &lValues[lC[cSN] + lb];//first element of src supernode starting from row lb
      double *srcL = &lValues[lC[cSN] + ub + 1];
      blocked_2by2_mult(supWdts, nSupRs, &D[cSN], src, trn_diag, nSNRCur, n);
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
      cblas_dgemm(CblasColMajor,CblasNoTrans,CblasConjTrans, nSupRs, ndrow1, supWdts, 1.0, trn_diag, nSupRs,
                  src, nSNRCur, 0.0, contribs, nSupRs);
 #else
@@ -335,7 +335,7 @@ namespace nasoq {
      D[curCol + l] = cur[l + l * nSupR];
      cur[l + l * nSupR] = 1.0;
     }
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
     cblas_dtrsm(CblasColMajor, CblasRight, CblasLower, CblasConjTrans, CblasNonUnit, rowNo, supWdt, 1.0,
                 trn_diag, supWdt, &cur[supWdt], nSupR);
 #else
@@ -461,8 +461,13 @@ namespace nasoq {
      }
      /*dgemm("N", "C", &ndrow3, &ndrow1, &supWdts, one, srcL, &nSNRCur,
            src, &nSNRCur, zero, &contribs[ndrow1], &nSupRs);*/
-     dgemm("N", "C", &nSupRs, &ndrow1, &supWdts, one, trn_diag, &nSupRs,
-           src, &nSNRCur, zero, contribs, &nSupRs);
+     #if defined OPENBLAS || defined BLAS_JL
+     cblas_dgemm(CblasColMajor,CblasNoTrans,CblasConjTrans, nSupRs, ndrow1, supWdts, 1.0, trn_diag, nSupRs,
+		 src, nSNRCur, 0.0, contribs, nSupRs);
+     #else
+     SYM_DGEMM("N", "C", &nSupRs, &ndrow1, &supWdts, one, trn_diag, &nSupRs,
+	       src, &nSNRCur, zero, contribs, &nSupRs);
+     #endif
 
      //copying contrib to L
      for (int i = 0; i < ndrow1; ++i) {//Copy contribs to L
@@ -501,8 +506,13 @@ namespace nasoq {
       *(++stCol) = tmp * *(++curCol);
      }
     }
-    dtrsm("R", "L", "C", "N", &rowNo, &supWdt, one,
-          trn_diag, &supWdt, &cur[supWdt], &nSupR);
+    #if defined OPENBLAS || defined BLAS_JL
+    cblas_dtrsm(CblasColMajor, CblasRight, CblasLower, CblasConjTrans, CblasNonUnit, rowNo, supWdt, 1.0,
+		trn_diag, supWdt, &cur[supWdt], nSupR);
+    #else
+    SYM_DTRSM("R", "L", "C", "N", &rowNo, &supWdt, one,
+	      trn_diag, &supWdt, &cur[supWdt], &nSupR);
+    #endif
 
     for (int k = 0; k < supWdt; ++k) {
      cur[k * nSupR + k] = 1.0;
