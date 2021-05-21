@@ -312,7 +312,7 @@ bool ldl_left_sn_02(int n, int* c, int* r, double* values,
      }}
 #endif
 
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
    cblas_dtrsm(CblasColMajor, CblasRight, CblasLower, CblasConjTrans, CblasUnit, rowNo, supWdt, 1.0,
 	       cur, nSupR, &cur[supWdt], nSupR);
 #else

@@ -18,7 +18,7 @@ namespace nasoq {
  void sym_sytrf(double *A, int n, const int stride, int *nbpivot, double critere) {
   int k;
   double one = 1.0;
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
   blasint  iun = 1;
 #elif BLAS_JL
   blasint iun = 1;
@@ -57,7 +57,7 @@ namespace nasoq {
    std::cout<<std::setprecision(48)<<tmp1[i]<<";";
   }
   std::cout<<"~~\n";*/
-//#ifdef OPENBLAS
+//#if defined OPENBLAS || defined BLAS_JL
    //cblas_dscal(tmp_dim, sca_tmp, tmp1, iun);
 //#else
 #if defined OPENBLAS || defined BLAS_JL
@@ -497,7 +497,7 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
  }
 
  void blocked_2by2_solver(int n, double *D, double *rhs, int n_rhs, int lda, int lda_d) {
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
   blasint  iun = 1;
 #elif BLAS_JL
   blasint iun = 1;
@@ -538,7 +538,7 @@ cblas_dscal(tmp_dim,sca_tmp,tmp1,iun);
  }
 
  void blocked_2by2_solver_update(int n, double *D, double *rhs, int n_rhs, int lda, int lda_d, int *mask) {
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
   blasint  iun = 1;
 #else
   const int iun = 1;

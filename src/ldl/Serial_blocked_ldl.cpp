@@ -120,10 +120,10 @@ namespace nasoq {
 //    dgemm("N", "C", &nSupRs, &ndrow1, &supWdts, one, trn_diag, &nSupRs,
 //          src, &nSNRCur, zero, contribs, &nSupRs);
 //#endif
-//#ifdef OPENBLAS
+//#if defined OPENBLAS || defined BLAS_JL
 //#endif
 
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
     cblas_dgemm(CblasColMajor,CblasNoTrans,CblasConjTrans, ndrow3, ndrow1, supWdts, 1.0, srcL, nSNRCur,
                 src, nSNRCur, 0.0, contribs+ndrow1, nSupRs);
 #else
@@ -163,7 +163,7 @@ namespace nasoq {
      *(++stCol) = tmp * *(++curCol);
     }
    }
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
    cblas_dtrsm(CblasColMajor, CblasRight, CblasLower, CblasConjTrans, CblasNonUnit, rowNo, supWdt, 1.0,
                trn_diag, supWdt, &cur[supWdt], nSupR);
 #else

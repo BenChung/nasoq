@@ -177,7 +177,7 @@ namespace nasoq {
         *(++stCol) = tmp * *(++curCol);
        }
       }
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
       cblas_dtrsm(CblasColMajor, CblasRight, CblasLower, CblasConjTrans, CblasNonUnit, rowNo, supWdt, 1.0,
                   trn_diag, supWdt, &cur[supWdt], nSupR);
 #else

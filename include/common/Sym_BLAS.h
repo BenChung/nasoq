@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include "common/Reach.h"
 
-#ifdef OPENBLAS
+#if defined OPENBLAS || defined BLAS_JL
 /*    #ifdef OB_INTERNAL
     #include "lapacke.h"
     #include "cblas.h"
@@ -35,7 +35,7 @@ namespace nasoq {
       *((p)++)*= (a);                           \
   }
 
-#ifdef OPENBLAS
+#if defined OPENBLAS
 #define SYM_DGEMM dgemm_
 #define SYM_DTRSM dtrsm_
 #define SYM_DGEMV dgemv_
