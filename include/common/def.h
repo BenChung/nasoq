@@ -7,7 +7,7 @@
 
 #include <cassert>
 #include <cstddef>
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
 #include "sys/param.h"
 
 #else

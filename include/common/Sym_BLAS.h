@@ -21,6 +21,7 @@
     #include "openblas/cblas.h"
    // #endif
 #elif BLAS_JL
+#include "libblastrampoline.h"
 #include "lbt/lapacke.h"
 #include "lbt/cblas.h"
 #else
