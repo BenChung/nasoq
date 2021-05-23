@@ -261,6 +261,7 @@ endif()
 if (NOT MKL_FOUND AND NOT BLAS_FOUND)
     add_dependencies(nasoq openblas_static)
 endif ()
+
 target_include_directories(nasoq PRIVATE ${NASOQ_LIB_INCLUDE_DIR} ${NASOQ_INCLUDE_DIR} ${OpenMP_CXX_INCLUDE_DIRS})
 target_link_libraries(nasoq ${METIS_LIBRARIES} ${NASOQ_LIB_DIR} ${OpenMP_CXX_LIBRARIES} ${OPENBLAS_STAT_LIB})
 set_target_properties(nasoq PROPERTIES
@@ -268,7 +269,8 @@ set_target_properties(nasoq PROPERTIES
 
 install(TARGETS nasoq
 	LIBRARY DESTINATION lib)
-
+install(FILES "include/nasoq.h" DESTINATION include)
+install(FILES "include/QP/linear_solver_wrapper.h" DESTINATION include/QP)
 project(NASOQ-BIN)
 add_executable(NASOQ-BIN nasoq_driver.cpp)
 target_include_directories(NASOQ-BIN PRIVATE ${NASOQ_INCLUDE_DIR} ${NASOQ_LIB_INCLUDE_DIR})
